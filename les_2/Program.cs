@@ -21,7 +21,7 @@ int[,] MassNums(int row, int column, int from, int to)
 
     for (int i = 0; i < row; i++)
         for (int j = 0; j < column; j++)
-            arr[i, j] = new Random().Next(from, to);
+            arr[i, j] = i + j;
     return arr;
 }
 
