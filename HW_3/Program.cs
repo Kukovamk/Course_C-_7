@@ -1,49 +1,74 @@
 ﻿// Задайте двумерный массив из целых чисел. 
 // Найдите среднее арифметическое элементов в каждом столбце.
 
-void Print(int[,] arr)
+int InputNum(string message)
 {
-    int row = arr.GetLength(0);
-    int column = arr.GetLength(1);
-
-    for (int i = 0; i < row; i++)
-    {
-        for (int j = 0; j < column; j++)
-            Console.Write($" {arr[i, j]} ");
-        Console.WriteLine();
-    }
-    Console.WriteLine();
-    
+    Console.Write(message);
+    return Convert.ToInt32(Console.ReadLine()!);
 }
-int[,] MassNums(int row, int column, int from, int to)
-{
-    int[,] arr = new int[row, column];
 
-    for (int i = 0; i < row; i++)
-        for (int j = 0; j < column; j++)
-            arr[i, j] = new Random().Next(from, to);
-    return arr;
-}
-double ColumnAverage(int[,] arr)
+int[,] Create2DArray(int rows, int columns)
 {
-     double[] average = new double[arr.GetLength(1)];
-    for (int i = 0; i < arr.GetLength(1); i++)
+    return new int[rows, columns];
+}
+void Fill2DArray(int[,] array, int minValue, int maxValue)
+{
+    Random rnd = new Random();
+    for  (int i = 0; i < array.GetLength(0); i++)
+        for (int j = 0; j < array.GetLength(1); j++)
+            array[i, j] = rnd.Next(minValue, maxValue + 1);
+}
+
+string Print2DArray(int[,] array)
+{
+    string res = String.Empty;
+        for (int i = 0; i < array.GetLength(0); i++)
+            for (int j = 0; j < array.GetLength(1); j++)
+            {
+                res += array[i, j];
+                if (j != array.GetLength(1) - 1)
+                    res += "\t";
+                else
+                    res += "\n";
+            }
+            return res;
+}
+
+double ColumnAverage(int[,] array)
+{
+     double[] average = new double[array.GetLength(1)];
+    for (int i = 0; i < array.GetLength(1); i++)
     {
-        for (int j = 0; i < arr.GetLength; j++)
-            average[i] += arr[j, i];
-        average [i] /= arr.GetLength(0);
+        for (int j = 0; i < array.GetLength(0); j++)
+            average[i] += array[j, i];
+        average [i] /= array.GetLength(0);
     }      
     return average;            
 
 }
 
-int row_num = int.Parse(Console.ReadLine()!);
-int column_num = int.Parse(Console.ReadLine()!);
-int start = int.Parse(Console.ReadLine()!);
-int stop = int.Parse(Console.ReadLine()!);
+string PrintDoubleArray(double[] array)
+{
+    string res = String.Empty;
+    for (int i = 0; i < array.Length; i++)
+    {
+        res += Math.Round(array[i], 2);
+        if(i != array.Length - 1) res += ";";
+        else res += ".";
+    }
+    return res;
+}
 
-int[,] mass = MassNums(row_num, column_num, start, stop);
-Print(mass);
-double[] avg = ColumnAverage(mass);
-Console.WriteLine(avg);
+int numRows = InputNum("Введите номер строки: ");
+int numCols = InputNum("Введите номер столбца: ");
+int[,] myArray = Create2DArray(numRows, numCols);
+int min = InputNum("Самое минимальное число: ");
+int max = InputNum("Самое максимальное число: ");
+Fill2DArray(myArray, min, max);
+string result = Print2DArray(myArray);
+Console.WriteLine(result);
+
+double[] avg = ColumnAverage(myArray);
+string avgs = PrintDoubleArray(avg);
+Console.WriteLine(avgs);
 
